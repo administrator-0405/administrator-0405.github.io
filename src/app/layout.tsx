@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body
-        className={`${dotGothic.variable} ${pressStart.variable} antialiased`}
+        className={`${dotGothic.variable} ${pressStart.variable} antialiased bg-black text-white min-h-screen`}
       >
         {children}
       </body>
