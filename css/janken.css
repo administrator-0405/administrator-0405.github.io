@@ -1,0 +1,25 @@
+#janken-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#player-hand button {
+    font-size: 2em;
+    margin: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#result {
+    margin-top: 30px;
+    font-size: 1.5em;
+}
+
+#computer-hand {
+    font-weight: bold;
+}
+
+#outcome {
+    font-weight: bold;
+    color: #ff0000;
+}

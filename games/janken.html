@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>じゃんけんゲーム</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/janken.css">
+</head>
+<body>
+    <header>
+        <h1><a href="../index.html">ゲームラボ</a></h1>
+    </header>
+    <main>
+        <h2>じゃんけんゲーム</h2>
+        <div id="janken-container">
+            <div id="player-hand">
+                <p>あなたの手を選んでください：</p>
+                <button id="rock">グー</button>
+                <button id="scissors">チョキ</button>
+                <button id="paper">パー</button>
+            </div>
+            <div id="result">
+                <p>コンピューターの手： <span id="computer-hand"></span></p>
+                <p>結果： <span id="outcome"></span></p>
+            </div>
+        </div>
+    </main>
+    <script src="../js/janken.js"></script>
+</body>
+</html>
