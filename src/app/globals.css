@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+/* --- Global Styles (from style.css) --- */
+body {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: var(--font-press-start), var(--font-dot-gothic), cursive;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    padding: 40px 0;
+    border-bottom: 4px solid #FFFFFF;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 3em;
+    text-shadow: 4px 4px 0px #555555;
+}
+
+main h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 40px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.game-card {
+    width: 280px;
+    background-color: #222222;
+    border: 4px solid #FFFFFF;
+    padding: 15px;
+    transition: transform 0.2s, background-color 0.2s;
+    display: block;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    background-color: #0000AA;
+}
+
+.screenshot-placeholder {
+    width: 100%;
+    height: 180px;
+    background-color: #555555;
+    border-bottom: 4px solid #FFFFFF;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+img.screenshot-placeholder {
+    display: block;
+}
+
+.game-card h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.game-card p {
+    font-size: 0.9em;
+}
+
+footer {
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 40px;
+    border-top: 4px solid #FFFFFF;
+    font-size: 0.8em;
+}
+
+/* --- Janken Styles (from janken.css) --- */
+#janken-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#player-hand button {
+    font-size: 2em;
+    margin: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: inherit; /* Inherit global font */
+    background: #333;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+#player-hand button:hover {
+    background: #555;
+}
+
+#result {
+    margin-top: 30px;
+    font-size: 1.5em;
+}
+
+#computer-hand {
+    font-weight: bold;
+}
+
+#outcome {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+/* --- Minesweeper Styles (from minesweeper.css) --- */
+.board {
+    display: grid;
+    gap: 1px;
+    background-color: #888;
+    border: 4px solid #fff;
+    width: fit-content;
+    margin: 20px auto;
+}
+
+.cell {
+    width: 25px;
+    height: 25px;
+    background-color: #ccc;
+    border-right: 2px solid #888;
+    border-bottom: 2px solid #888;
+    border-left: 2px solid #ddd;
+    border-top: 2px solid #ddd;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: inherit;
+    color: black; /* Default color for numbers */
+}
+
+.cell.revealed {
+    background-color: #bbb;
+    border: 1px solid #999;
+}
+
+.cell.flagged::after {
+    content: '🚩';
+    font-size: 14px;
+}
+
+.cell.mine {
+    background-color: #ff0000;
+}
+
+.cell.mine::after {
+    content: '💣';
+    font-size: 14px;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+    margin: 20px auto;
+    background: #222;
+    padding: 10px;
+    border: 4px solid #fff;
+}
+
+#reset-button {
+    font-family: inherit;
+    background-color: #555;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#reset-button:hover {
+    background-color: #777;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
