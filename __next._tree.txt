@@ -1,5 +1,5 @@
-:HL["/_next/static/chunks/731842b016ba0404.css","style"]
+:HL["/_next/static/chunks/7013323162e50c0e.css","style"]
 :HL["/_next/static/media/6beed150a745887e-s.p.f63acf5c.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/de161955856a921d-s.p.25da2b95.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/games/game4.png","image"]
-0:{"buildId":"w7k43vqK5p0RF-rz-bP6M","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
+0:{"buildId":"fdYusZrQGXg62LdC0XEmH","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
