@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import PixelButton from '@/components/PixelButton';
+import BackToTop from '@/components/BackToTop';
 
 export default function Janken() {
   const [computerHand, setComputerHand] = useState<string | null>(null);
@@ -28,24 +31,24 @@ export default function Janken() {
 
   return (
     <>
-      <header>
-        <h1><Link href="/">ゲームラボ</Link></h1>
-      </header>
+      <Header />
       <main>
-        <h2>じゃんけんゲーム</h2>
-        <div id="janken-container">
-            <div id="player-hand">
-                <p>あなたの手を選んでください：</p>
-                <button id="rock" onClick={() => playJanken('グー')}>グー</button>
-                <button id="scissors" onClick={() => playJanken('チョキ')}>チョキ</button>
-                <button id="paper" onClick={() => playJanken('パー')}>パー</button>
+        <h2 className="text-3xl text-center mb-10">じゃんけんゲーム</h2>
+        <div className="text-center mt-12">
+            <div className="mb-8">
+                <p className="mb-4">あなたの手を選んでください：</p>
+                <PixelButton onClick={() => playJanken('グー')}>グー</PixelButton>
+                <PixelButton onClick={() => playJanken('チョキ')}>チョキ</PixelButton>
+                <PixelButton onClick={() => playJanken('パー')}>パー</PixelButton>
             </div>
-            <div id="result">
-                <p>コンピューターの手： <span id="computer-hand">{computerHand}</span></p>
-                <p>結果： <span id="outcome">{outcome}</span></p>
+            <div className="mt-8 text-2xl">
+                <p>コンピューターの手： <span className="font-bold">{computerHand}</span></p>
+                <p>結果： <span className="font-bold text-red-500">{outcome}</span></p>
             </div>
         </div>
+        <BackToTop />
       </main>
+      <Footer />
     </>
   );
 }

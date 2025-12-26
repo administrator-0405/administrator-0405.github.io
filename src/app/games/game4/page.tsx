@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import PixelButton from '@/components/PixelButton';
+import BackToTop from '@/components/BackToTop';
 
 interface Cell {
   isMine: boolean;
@@ -19,11 +22,9 @@ export default function Minesweeper() {
   const [flags, setFlags] = useState(0);
   const [timer, setTimer] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [gameWon, setGameWon] = useState(false);
+  const [, setGameWon] = useState(false);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
-  // Initialize board
   const createBoard = useCallback(() => {
     const newBoard: Cell[][] = Array(BOARD_HEIGHT).fill(null).map(() =>
       Array(BOARD_WIDTH).fill(null).map(() => ({
@@ -34,7 +35,6 @@ export default function Minesweeper() {
       }))
     );
 
-    // Place mines
     let minesPlaced = 0;
     while (minesPlaced < MINE_COUNT) {
       const x = Math.floor(Math.random() * BOARD_WIDTH);
@@ -45,7 +45,6 @@ export default function Minesweeper() {
       }
     }
 
-    // Calculate adjacent mines
     for (let y = 0; y < BOARD_HEIGHT; y++) {
       for (let x = 0; x < BOARD_WIDTH; x++) {
         if (newBoard[y][x].isMine) continue;
@@ -84,78 +83,6 @@ export default function Minesweeper() {
     return () => clearInterval(interval);
   }, [isTimerRunning, gameOver]);
 
-  const handleCellClick = (y: number, x: number) => {
-    if (gameOver || board[y][x].isRevealed || board[y][x].isFlagged) return;
-
-    if (!isTimerRunning) setIsTimerRunning(true);
-
-    const newBoard = [...board.map(row => [...row])];
-    const cell = { ...newBoard[y][x] }; // Copy cell
-    newBoard[y][x] = cell;
-    
-    cell.isRevealed = true;
-
-    if (cell.isMine) {
-      setGameOver(true);
-      setIsTimerRunning(false);
-      // Reveal all mines
-      newBoard.forEach((row, rI) => row.forEach((c, cI) => {
-        if (c.isMine) {
-            newBoard[rI][cI] = { ...c, isRevealed: true };
-        }
-      }));
-      setBoard(newBoard);
-      setTimeout(() => alert('ゲームオーバー！'), 100);
-      return;
-    }
-
-    if (cell.adjacentMines === 0) {
-      revealNeighbors(y, x, newBoard);
-    }
-
-    setBoard(newBoard);
-    checkWinCondition(newBoard);
-  };
-
-  const revealNeighbors = (y: number, x: number, currentBoard: Cell[][]) => {
-     for (let yOffset = -1; yOffset <= 1; yOffset++) {
-        for (let xOffset = -1; xOffset <= 1; xOffset++) {
-            if (yOffset === 0 && xOffset === 0) continue;
-            const newY = y + yOffset;
-            const newX = x + xOffset;
-
-            if (newY >= 0 && newY < BOARD_HEIGHT && newX >= 0 && newX < BOARD_WIDTH) {
-                const neighbor = currentBoard[newY][newX];
-                if (!neighbor.isRevealed && !neighbor.isFlagged) {
-                   // Mutating currentBoard (which is a copy) is fine here as long as we are careful
-                   // Need to shallow copy the neighbor row if strictly immutable, but currentBoard is already a deep-ish copy from handleCellClick
-                   // Actually handleCellClick only copied the top array and the clicked row?
-                   // No, `[...board.map(row => [...row])]` is a deep copy of the 2D array structure (objects are still shared? No, objects are shared!).
-                   // Wait, `row => [...row]` copies the rows. The cells inside are objects. They are SHARED if I don't copy them.
-                   // My `createBoard` creates objects.
-                   // `[...board.map(row => [...row])]` creates new row arrays, but the elements are references to the SAME cell objects.
-                   // So modifying `neighbor.isRevealed` DOES modify the state directly if I am not careful.
-                   // React strict mode might complain or it might work but is not pure.
-                   // I should copy the cell before modifying.
-                   
-                   // To fix this properly:
-                   const newNeighbor = { ...neighbor, isRevealed: true };
-                   currentBoard[newY][newX] = newNeighbor;
-                   
-                   if (newNeighbor.adjacentMines === 0) {
-                       revealNeighbors(newY, newX, currentBoard);
-                   }
-                }
-            }
-        }
-    }
-  };
-  
-  // Re-verify the deep copy logic.
-  // Ideally, I should simple clone the whole state or use Immer, but here simple clone is okay.
-  // If I do `const newBoard = board.map(row => row.map(cell => ({...cell})));` it is a true deep copy.
-  // Then I can mutate `newBoard` freely.
-  
   const safeHandleCellClick = (y: number, x: number) => {
     if (gameOver || board[y][x].isRevealed || board[y][x].isFlagged) return;
     if (!isTimerRunning) setIsTimerRunning(true);
@@ -177,7 +104,6 @@ export default function Minesweeper() {
     }
     
     if (cell.adjacentMines === 0) {
-        // Recursive reveal on the newBoard
         const recursiveReveal = (rY: number, rX: number) => {
             for (let yOffset = -1; yOffset <= 1; yOffset++) {
                 for (let xOffset = -1; xOffset <= 1; xOffset++) {
@@ -202,7 +128,6 @@ export default function Minesweeper() {
     setBoard(newBoard);
     checkWinCondition(newBoard);
   };
-
 
   const handleRightClick = (e: React.MouseEvent, y: number, x: number) => {
     e.preventDefault();
@@ -260,31 +185,35 @@ export default function Minesweeper() {
 
   return (
     <>
-      <header>
-        <h1>マインスイーパー</h1>
-      </header>
-
+      <Header />
       <main className="container">
-        <div className="game-info">
-            <span id="flag-count">🚩 {MINE_COUNT - flags}</span>
-            <button id="reset-button" onClick={createBoard}>リセット</button>
-            <span id="timer">{timer}</span>
+        <h2 className="text-3xl text-center mb-10">マインスイーパー</h2>
+        <div className="flex justify-between items-center max-w-[400px] mx-auto bg-[#222] p-3 border-4 border-white mb-5">
+            <span>🚩 {MINE_COUNT - flags}</span>
+            <PixelButton onClick={createBoard} className="text-sm px-2 py-1 m-0">リセット</PixelButton>
+            <span>{timer}</span>
         </div>
-        <div id="minesweeper-board" className="board" style={{ gridTemplateColumns: `repeat(${BOARD_WIDTH}, 25px)` }}>
+        <div className="grid gap-[1px] bg-[#888] border-4 border-white w-fit mx-auto mb-5" style={{ gridTemplateColumns: `repeat(${BOARD_WIDTH}, 25px)` }}>
             {board.map((row, y) => row.map((cell, x) => (
                 <div
                     key={`${y}-${x}`}
-                    className={`cell ${cell.isRevealed ? 'revealed' : ''} ${cell.isFlagged ? 'flagged' : ''} ${cell.isMine && cell.isRevealed ? 'mine' : ''}`}
-                    style={{ color: cell.isRevealed && cell.adjacentMines > 0 ? getNumberColor(cell.adjacentMines) : undefined }}
+                    className={`
+                        w-[25px] h-[25px] flex justify-center items-center text-base cursor-pointer
+                        ${cell.isRevealed ? 'bg-[#bbb] border border-[#999]' : 'bg-[#ccc] border-r-2 border-r-[#888] border-b-2 border-b-[#888] border-l-2 border-l-[#ddd] border-t-2 border-t-[#ddd]'}
+                        ${cell.isMine && cell.isRevealed ? 'bg-red-600' : ''}
+                        before:content-['']
+                    `}
+                    style={{ color: cell.isRevealed && cell.adjacentMines > 0 ? getNumberColor(cell.adjacentMines) : 'black' }}
                     onClick={() => safeHandleCellClick(y, x)}
                     onContextMenu={(e) => handleRightClick(e, y, x)}
                 >
-                    {cell.isRevealed && !cell.isMine && cell.adjacentMines > 0 ? cell.adjacentMines : ''}
+                    {cell.isRevealed && !cell.isMine && cell.adjacentMines > 0 ? cell.adjacentMines : (cell.isFlagged ? '🚩' : (cell.isRevealed && cell.isMine ? '💣' : ''))}
                 </div>
             )))}
         </div>
-        <Link href="/" className="back-link">トップへ戻る</Link>
+        <BackToTop />
       </main>
+      <Footer />
     </>
   );
 }
